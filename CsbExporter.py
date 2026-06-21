@@ -29,11 +29,6 @@ def SetupMesh(iomodel: gltflib.GLTFModel, buffer: bytearray, name: str, triangle
     
     indices: array[int] = array('H')
     
-    print(name)
-    # print(positions)
-    print([(positions[tri.A], positions[tri.B], positions[tri.C]) for tri in triangles[1:2]])
-    print()
-    
     for tri in triangles:
         indices.append(tri.A)
         indices.append(tri.B)
