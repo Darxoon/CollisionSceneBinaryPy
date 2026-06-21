@@ -1,11 +1,10 @@
 class Triangle:
-    Vertices = list() #list[vec3]
+    Vertices: list[list[float]] = []
 
+    A: int = None
+    B: int = None
+    C: int = None
 
-    A = None #int
-    B = None #int
-    C = None #int
-
-    ID = None #int
+    ID: int = None
     def __init__(self):
-        self.Normal = [0, 1, 0] #vec3
+        self.Normal: list[float] = [0, 1, 0]

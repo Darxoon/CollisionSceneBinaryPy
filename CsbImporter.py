@@ -1,4 +1,4 @@
-from collada import *
+# from collada import *
 from CsbFile import CsbFile
 from CtbFile import CtbFile
 from CsbExporter import Export

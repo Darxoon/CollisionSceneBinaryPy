@@ -8,9 +8,9 @@ def ReadZeroTerminatedString(reader: bytearray, address: int) -> str:
     return reader[address:end].decode('utf-8')
 
 class CsbFile:
-    Models = []
-    Nodes = []
-    Objects = []
+    Models: list[CsbFile.Model] = []
+    Nodes: list[CsbFile.Node] = []
+    Objects: list[CsbFile.CollisionObject] = []
     
     Unknown = 1
     Unknown3 = 2
@@ -59,22 +59,22 @@ class CsbFile:
         
         def __init__(self):
             self.Positions = list()
-            self.Triangles = list()
+            self.Triangles: list[Triangle] = list()
 
     class Model:
-        NumTriangles = 0
-        NumVertices = 0
+        NumTriangles: int = 0
+        NumVertices: int = 0
         
-        Unknown0 = 1
+        Unknown0: int = 1
         ColFlag = None
         Unknown2 = None
         MaterialAttribute = None
         Unknown4 = None
-        Unknown5 = 1
+        Unknown5: int = 1
         
-        Zero = (0.0, 0.0, 0.0)
-        Translate = None
-        Rotation = None
+        Zero: tuple[float, float, float] = (0.0, 0.0, 0.0)
+        Translate: tuple[float, float, float] = None
+        Rotation: tuple[float, float, float] = None
         
         NodeIndex = None
         
@@ -85,10 +85,10 @@ class CsbFile:
         def __init__(self):
             self.Bounding = BoundingBox() #min max vec3
             
-            self.Meshes = list()
+            self.Meshes: list[CsbFile.Mesh] = []
             
-            self.Triangles = list()
-            self.Positions = list()
+            self.Triangles: list[Triangle] = []
+            self.Positions = []
 
     def Read(self, reader: bytearray, bigEndian: bool):
         
@@ -150,7 +150,7 @@ class CsbFile:
         assert unk == 0, (unk, hex(readOffset))
         readOffset += 4
         
-        self.Objects = []
+        self.Objects: list[CsbFile.CollisionObject] = []
         
         # add both scene groups
         self.Objects.extend(sphere_objects)
@@ -283,7 +283,7 @@ class CsbFile:
         num_models = 1 # There is only 1 combined model – DEADBEEF
         
         #model group headers
-        models = [self.Model() for _ in range(num_models)]
+        models: list[CsbFile.Model] = [self.Model() for _ in range(num_models)]
         for i in range(num_models):
             models[i].Unknown0 = unpack_from(f'{byteOrder}I', reader, offset=readOffset)[0] #=1 (3 in other titles)
             assert models[i].Unknown0 == 1, (models[i].Unknown0, hex(readOffset))

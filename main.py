@@ -22,7 +22,7 @@ def main():
             print("Exporting CSB file!")
             
             csb = CsbFile.CsbFile(open(arg, "rb").read(), False)
-            output = arg[:-4] + ".dae"
+            output = arg[:-4] + ".glb"
             
             Export(csb, output)
             #with open(output, "w") as file:
